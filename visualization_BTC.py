@@ -30,4 +30,3 @@ plt.ylabel('Price', fontsize ='18')
 
 plt.gcf().autofmt_xdate() # Auto format
 plt.show() # Display gfx
-#Testing pycharm push
