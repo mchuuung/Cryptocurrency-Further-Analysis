@@ -13,7 +13,7 @@ quandl.ApiConfig.api_key = "JmoMXXYhf2-GW78XYnMh" # API key for Quandl datasets
 
 def get_quandl_data(quandl_id):
 
-    """A helper function is a function that performs part of the computation of another function.
+    """ A helper function is a function that performs part of the computation of another function.
 Helper functions are used to make your programs easier to read by giving descriptive names to computations.
  They also let you reuse computations, just as with functions in general.
  """
@@ -29,15 +29,13 @@ Helper functions are used to make your programs easier to read by giving descrip
         print('Cached {} at {}'.format(quandl_id, cache_path))
     return df
 
-# Pull Kraken BTC price exchange data
-btc_usd_price_kraken = get_quandl_data('BCHARTS/KRAKENUSD')
+btc_usd_price_kraken = get_quandl_data('BCHARTS/KRAKENUSD') # Pull Kraken BTC price exchange data
 
-# Chart the BTC pricing data
-btc_trace = go.Scattergl(x=btc_usd_price_kraken.index, y=btc_usd_price_kraken['Weighted Price'])
-#py.plot([btc_trace])
 
-# Pull pricing data for 3 more BTC exchanges
-exchanges = ['COINBASE','HITBTC','BITFINEX']
+btc_trace = go.Scattergl(x=btc_usd_price_kraken.index, y=btc_usd_price_kraken['Weighted Price']) # Chart the BTC pricing data
+
+
+exchanges = ['COINBASE','HITBTC','BITFINEX'] # Pull pricing data for 3 more BTC exchanges
 
 exchange_data = {}
 
@@ -50,19 +48,21 @@ for exchange in exchanges:
     exchange_data[exchange] = btc_exchange_df
 
 
-def merge_dfs_on_column(dataframes, labels, col):
-    '''Merge a single column of each dataframe into a new combined dataframe'''
+def merge_dfs_on_column(data_frames, labels, col):
+    """ Merge a single column of each data frame into a new combined data frame """
     series_dict = {}
-    for index in range(len(dataframes)):
-        series_dict[labels[index]] = dataframes[index][col]
+    for index in range(len(data_frames)):
+        series_dict[labels[index]] = data_frames[index][col]
 
     return pd.DataFrame(series_dict)
+
+
 btc_usd_datasets = merge_dfs_on_column(list(exchange_data.values()), list(exchange_data.keys()), 'Weighted Price')
 print (btc_usd_datasets.tail())
 
 
 def df_scatter(df, title, seperate_y_axis=False, y_axis_label='', scale='linear', initial_hide=False):
-    '''Generate a scatter plot of the entire dataframe'''
+    """ Generate a scatter plot of the entire data frame """
     label_arr = list(df)
     series_arr = list(map(lambda col: df[col], label_arr))
 
@@ -96,7 +96,7 @@ def df_scatter(df, title, seperate_y_axis=False, y_axis_label='', scale='linear'
             visible='legendonly'
         )
 
-        # Add seperate axis for the series
+        # Add separate axis for the series
         if seperate_y_axis:
             trace['yaxis'] = 'y{}'.format(index + 1)
             layout['yaxis{}'.format(index + 1)] = y_axis_config
